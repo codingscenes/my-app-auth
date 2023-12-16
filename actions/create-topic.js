@@ -1,6 +1,10 @@
 'use server';
-import { z } from 'zod';
 import { auth } from '@/auth';
+import { db } from '@/db';
+import { paths } from '@/path';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { z } from 'zod';
 
 const createTopicSchema = z.object({
   name: z.string().min(3).regex(/^[a-z-]+$/, { message: 'LowerCase letter or dashes with no spaces' }),
@@ -29,4 +33,33 @@ export async function createTopic(prevData, formData) {
   }
   const data = parsedResult.data;
   console.log(data)
+  let topic = '';
+
+  try {
+    topic = await db.topic.create({
+      data: {
+        slug: data.name,
+        name: data.name,
+        description: data.description
+      }
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        errors: {
+          _form: [error.message]
+        }
+      }
+    } else {
+      return {
+        errros: {
+          _forms: ['Something went wrong!']
+        }
+      }
+    }
+
+  }
+  revalidatePath('/')
+  console.log(topic)
+  redirect(paths.topicShow(topic.slug))
 }
