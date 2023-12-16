@@ -13,7 +13,7 @@ import {
 import * as actions from '@/actions';
 
 export default function TopicCreationForm() {
-  const [state, formAction] = useFormState(actions.createTopic, { errors: {} })
+  const [formState, formAction] = useFormState(actions.createTopic, { errors: {} })
   return (
     <Popover placement='left-start'>
       <PopoverTrigger>
@@ -23,9 +23,16 @@ export default function TopicCreationForm() {
         <form action={formAction}>
           <div className="flex flex-col gap-4 p-4 w-80">
             <h3 className="text-lg">Create a Topic</h3>
-            <Input name='name' label='Name' labelPlacement='outside' placeholder='Name' />
+            <Input name='name' label='Name' labelPlacement='outside' placeholder='Name'
+              isInvalid={!!formState?.errors.name}
+              errorMessage={formState?.errors.name?.join(', ')}
+            />
+
             <Textarea name='description' label='Description' labelPlacement='outside'
-              placeholder='Describe your topic in detail.' />
+              placeholder='Describe your topic in detail.'
+              isInvalid={!!formState?.errors.description}
+              errorMessage={formState?.errors.description?.join(', ')}
+            />
             <Button type='submit'>Submit</Button>
 
           </div>
