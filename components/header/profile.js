@@ -1,25 +1,27 @@
+'use client';
+
 import * as actions from '@/actions';
-import { auth } from '@/auth';
 import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import { useSession } from 'next-auth/react';
+// async and await does not work in client component
 
-export default async function Profile() {
-  const session = await auth();
+export default function Profile() {
+  // this will not make this component dynamic as useSession does not access
+  // the cookies direclty it connect with the backend
+  const session = useSession();
+  const data = session?.data;
+  let content = '';
 
-  let content = (
-    <form action={actions.signIn}>
-      <Button type='submit' color='secondary' variant='bordered'>
-        Login
-      </Button>
-    </form>
-  );
+  if (session?.status === 'loading')
+    content = null;
 
-  if (session?.user) {
+  else if (data?.user) {
     content = (
       <Popover placement='left'>
         <PopoverTrigger>
           <div className='flex justify-center items-center'>
-            <Avatar src={session?.user.image || ''} className='me-2' alt='Avatar profile' title={session?.user?.name} />
-            {session?.user?.name}
+            <Avatar src={data?.user.image || ''} className='me-2' alt='Avatar profile' title={data?.user?.name} />
+            {data?.user?.name}
           </div>
         </PopoverTrigger>
         <PopoverContent>
@@ -31,8 +33,14 @@ export default async function Profile() {
         </PopoverContent>
       </Popover>
     );
-  }
+  } else
+    content = (
+      <form action={actions.signIn}>
+        <Button type='submit' color='secondary' variant='bordered'>
+          Login
+        </Button>
+      </form>
+    )
 
   return content;
-
 }

@@ -6,6 +6,13 @@ import { auth } from '@/auth';
 import Profile from './profile';
 
 export default async function Header() {
+  // using this below function will make the whole page dynamic
+  // this is dealing with cookies
+  // this is in the header
+  /**
+   * useSession() does not direclty access the cookies, it makes a request to the backend to figure out the auth status
+   * so no access of cookies === 'static'
+   */
   const session = await auth();
 
   return (
@@ -22,7 +29,7 @@ export default async function Header() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify='end' className='max-w-fit ms-4'>
+      <NavbarContent justify='end' className='w-28 ms-4'>
         <NavbarItem>
           <Profile />
         </NavbarItem>
