@@ -1,3 +1,5 @@
+import CreateNoteForm from '@/components/notes/create-note-form';
+
 export default function TopicPage({ params }) {
 
   const { slug } = params;
@@ -8,6 +10,9 @@ export default function TopicPage({ params }) {
         <h1 className="text-2xl font-bold-">
           {slug}
         </h1>
+      </div>
+      <div>
+        <CreateNoteForm />
       </div>
     </div>
   )
