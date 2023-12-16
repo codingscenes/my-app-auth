@@ -31,7 +31,7 @@ export const {
   callbacks: {
     // workaround fix for the nextjsAuth bug
     async session({ session, user }) {
-      console.log('user', user);
+      // console.log('user', user);
       if (session && user) {
         session.user.id = user.id;
       }

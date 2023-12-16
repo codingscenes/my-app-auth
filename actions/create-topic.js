@@ -32,7 +32,7 @@ export async function createTopic(prevData, formData) {
     }
   }
   const data = parsedResult.data;
-  console.log(data)
+  // console.log(data)
   let topic = '';
 
   try {
@@ -60,6 +60,6 @@ export async function createTopic(prevData, formData) {
 
   }
   revalidatePath('/')
-  console.log(topic)
+  // console.log(topic)
   redirect(paths.topicShow(topic.slug))
 }
