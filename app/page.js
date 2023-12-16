@@ -1,11 +1,16 @@
 import { auth } from '@/auth';
-
+import TopicCreationForm from '@/components/topics/topic-creation-form';
 export default async function Home() {
   const session = await auth();
   // console.log(session);
   return (
-    <main>
-      <h1>Hello</h1>
-    </main>
+    <div className="grid grid-cols-4 gap-4 p-4">
+      <div className="col-span-3">
+          <h1 className="text-xl m-2">Latest Notes</h1>
+      </div>
+      <div>
+        <TopicCreationForm/>
+      </div>
+    </div>
   );
 }
