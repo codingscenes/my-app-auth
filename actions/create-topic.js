@@ -12,6 +12,8 @@ const createTopicSchema = z.object({
 })
 export async function createTopic(prevData, formData) {
   // TODO: revalidate the root page
+  // mocking delay
+  await new Promise(resolve => setTimeout(resolve, 2000));
   const parsedResult = createTopicSchema.safeParse({
     name: formData.get('name'),
     description: formData.get('description')
@@ -33,6 +35,7 @@ export async function createTopic(prevData, formData) {
   }
   const data = parsedResult.data;
   // console.log(data)
+
   let topic = '';
 
   try {
