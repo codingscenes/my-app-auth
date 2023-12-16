@@ -55,7 +55,6 @@ model Note {
   title     String
   content   String
   image     String?
-  private   Boolean    @default(false)
   slug      String     @unique
   views     Int        @default(0)
   createdAt DateTime   @default(now())
@@ -64,6 +63,8 @@ model Note {
   user      User       @relation(fields: [userId], references: [id])
   comments  Comment[]
   favorites Favorite[]
+  topic     Topic?     @relation(fields: [topicId], references: [id])
+  topicId   String?
 }
 
 model Comment {
@@ -85,4 +86,14 @@ model Favorite {
   user      User     @relation(fields: [userId], references: [id])
   noteId    String
   note      Note     @relation(fields: [noteId], references: [id])
+}
+
+model Topic {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  notes       Note[]
 }
