@@ -7,8 +7,9 @@ import { SessionProvider } from 'next-auth/react'; // for accessing session on c
 
 // sharing next ui state to all components eg modal etc.
 export default function Providers({ children }) {
-  return;
-  <SessionProvider>
-    <NextUIProvider>{children}</NextUIProvider>
-  </SessionProvider>;
+  return (
+    <SessionProvider>
+      <NextUIProvider>{children}</NextUIProvider>
+    </SessionProvider>
+  );
 }
