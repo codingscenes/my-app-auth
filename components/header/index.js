@@ -4,6 +4,7 @@ import { Input, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-o
 
 import { auth } from '@/auth';
 import Profile from './profile';
+import SearchInput from '../search-input';
 
 export default async function Header() {
   // using this below function will make the whole page dynamic
@@ -25,7 +26,7 @@ export default async function Header() {
 
       <NavbarContent justify='end' >
         <NavbarItem>
-          <Input placeholder='Search your notes' className='w-96' variant='bordered' />
+          <SearchInput/>
         </NavbarItem>
       </NavbarContent>
 

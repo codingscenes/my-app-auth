@@ -3,6 +3,7 @@ import ShowNotes from '@/components/notes/show-notes';
 import TopicCreationForm from '@/components/topics/topic-creation-form';
 import TopicList from '@/components/topics/topic-list';
 import { Divider } from '@nextui-org/react';
+import { getAllNotes } from '@/actions/notes';
 export default async function Home() {
   const session = await auth();
   // console.log(session);
@@ -10,7 +11,7 @@ export default async function Home() {
     <div className="grid grid-cols-4 gap-4 p-4">
       <div className="col-span-3">
         <h1 className="text-xl m-2">Latest Notes</h1>
-          <ShowNotes/>
+        <ShowNotes dbFn={getAllNotes} />
       </div>
       <div className='border shadow py-3 px-2'>
         <TopicCreationForm />
