@@ -1,7 +1,11 @@
 'use server';
 import { auth } from '@/auth';
 import { db } from '@/db';
+import { paths } from '@/path';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import slugify from 'slugify';
 
 const createNoteSchema = z.object({
   title: z.string().min(3),
@@ -31,6 +35,8 @@ export async function createNote(slug, formState, formData) {
     };
   }
 
+  let note = '';
+
   try {
     // saving the form data if user is loggedIn
     const topic = await db.topic.findFirst({
@@ -44,8 +50,16 @@ export async function createNote(slug, formState, formData) {
         },
       };
     }
-
     // Have valid topic
+    note = await db.note.create({
+      data: {
+        title: result.data.title,
+        content: result.data.description,
+        userId: session.user.id,
+        topicId: topic.id,
+        slug: slugify(result.data.title, { lower: true }),
+      },
+    });
   } catch (error) {
     if (error instanceof Error) {
       return {
@@ -56,9 +70,12 @@ export async function createNote(slug, formState, formData) {
     } else {
       return {
         errros: {
-          _forms: ['Something went wrong!'],
+          _forms: ['Failed to Create Note!'],
         },
       };
     }
   }
+
+  revalidatePath(paths.topicShow(slug));
+  redirect(paths.noteDetails(slug, note.id));
 }

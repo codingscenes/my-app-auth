@@ -9,6 +9,6 @@ export const paths = {
     return `/topics/${topicSlug}/notes/new`;
   },
   noteDetails(topicSlug, noteId) {
-    return `/topics/${topicSlug}/notes/noteId`;
+    return `/topics/${topicSlug}/notes/${noteId}`;
   },
 };
