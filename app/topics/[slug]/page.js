@@ -12,7 +12,7 @@ export default function TopicPage({ params }) {
         </h1>
       </div>
       <div>
-        <CreateNoteForm />
+        <CreateNoteForm slug={slug} />
       </div>
     </div>
   )
